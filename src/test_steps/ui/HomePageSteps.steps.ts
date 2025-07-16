@@ -1,5 +1,5 @@
 import {HomePage} from "../../utils/recources/pages/HomePage";
-import {Page} from "@playwright/test";
+import {expect, Page} from "@playwright/test";
 import {SignInLoginPage} from "../../utils/recources/pages/SignInLoginPage";
 import {EnterAccountInformationPage} from "../../utils/recources/pages/EnterAccountInformationPage";
 import {GenerateSignUpTestData} from "../../utils/GenerateSignUpTestData";
@@ -43,5 +43,26 @@ export class UISteps {
     async assertSignedUpUserAndDelete(data: GenerateSignUpTestData){
         await this.homePage.assertUserLoggedInAndDeleteAccount(data);
         await this.accountDeletedPage.assertMessageAndClickContinue()
+    }
+
+    async navigateAndSignUpUser(data: GenerateSignUpTestData){
+        await this.navigateAndConsent();
+        await this.signUpUser(data);
+    }
+
+    async logoutUser(){
+        await this.homePage.logoutUser();
+
+    }
+
+    async assertUserLoginAndDelete(data: GenerateSignUpTestData) {
+        await this.signInLoginPage.logIn(data);
+        await this.homePage.assertUserLoggedInAndDeleteAccount(data);
+        await this.accountDeletedPage.assertMessageAndClickContinue()
+    }
+
+    async assertUserLogedInWithIncorrectData(data: GenerateSignUpTestData){
+        await this.signInLoginPage.logIn(data);
+        expect.soft(await this.signInLoginPage.invalidEmailOrPassword.isVisible()).toBe(true);
     }
 }

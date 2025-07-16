@@ -1,24 +1,29 @@
 export class GenerateSignUpTestData {
-     public readonly email: string;
-     public readonly title: 'Mr' | 'Mrs';
-     public readonly password: string;
-     public readonly dateOfBirth: { day: number; month: string; year: number };
-     public readonly newsletter: boolean;
-     public readonly specialOffers: boolean;
-     public readonly firstName: string;
-     public readonly lastName: string;
-     public readonly company: string;
-     public readonly address1: string;
-     public readonly address2: string;
-     public readonly country: string;
+    public email: string;
+    public readonly title: 'Mr' | 'Mrs';
+    public password: string;
+    public readonly dateOfBirth: { day: number; month: string; year: number };
+    public readonly newsletter: boolean;
+    public readonly specialOffers: boolean;
+    public readonly firstName: string;
+    public readonly lastName: string;
+    public readonly company: string;
+    public readonly address1: string;
+    public readonly address2: string;
+    public readonly country: string;
     public readonly state: string;
     public readonly city: string;
     public readonly zipcode: string;
     public readonly mobileNumber: string;
 
     constructor() {
-         this.firstName = GenerateSignUpTestData.getRandomElement(['John', 'Jane', 'Peter', 'Mary', 'David', 'Susan']);
-         this.lastName = GenerateSignUpTestData.getRandomElement(['Smith', 'Jones', 'Williams', 'Brown', 'Davis', 'Miller']);
+         this.firstName = GenerateSignUpTestData.getRandomElement(['James', 'Mary', 'John', 'Patricia', 'Robert', 'Jennifer', 'Michael', 'Linda',
+                                                                   'William', 'Elizabeth', 'David', 'Barbara', 'Richard', 'Susan', 'Joseph', 'Jessica', 'Thomas',
+                                                                   'Sarah', 'Charles', 'Karen', 'Christopher', 'Nancy', 'Daniel', 'Lisa', 'Matthew',
+                                                                   'Betty', 'Anthony', 'Margaret', 'Mark', 'Sandra']);
+         this.lastName = GenerateSignUpTestData.getRandomElement(['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez',
+                                                                  'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore',
+                                                                  'Jackson', 'Martin', 'Lee', 'Perez', 'Thompson', 'White', 'Harris', 'Sanchez', 'Clark', 'Lewis', 'Robinson', 'Walker']);
 
          this.email = `${this.firstName.toLowerCase()}.${this.lastName.toLowerCase()}@testgmail.com`;
          this.company = `${this.lastName} & Co.`;
@@ -42,18 +47,18 @@ export class GenerateSignUpTestData {
      private static getRandomElement<T>(array: T[]): T {
          const index = Math.floor(Math.random() * array.length);
          return array[index];
-         }
+    }
 
      private static getRandomNumber(min: number, max: number): number {
          return Math.floor(Math.random() * (max - min + 1)) + min;
-         }
+    }
 
      private static getRandomString(length: number): string {
          const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
          let result = '';
          for (let i = 0; i < length; i++) {
              result += chars.charAt(Math.floor(Math.random() * chars.length));
-             }
+         }
          return result;
          }
 }

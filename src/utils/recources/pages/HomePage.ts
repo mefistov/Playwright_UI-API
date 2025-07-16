@@ -20,6 +20,7 @@ export class HomePage {
     readonly loggedAs: Locator;
     readonly loggedAsUserName: Locator;
     readonly deleteAccountButton: Locator;
+    readonly logOut: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -35,7 +36,8 @@ export class HomePage {
         this.apiTestingsButton = page.getByRole('link', {name: ' API Testing'});
         this.loggedAs = page.getByText('Logged in as');
         this.loggedAsUserName = this.loggedAs.locator('b');
-        this.deleteAccountButton = page.getByRole('link', {name: ' Delete Account'})
+        this.deleteAccountButton = page.getByRole('link', {name: ' Delete Account'});
+        this.logOut = page.getByRole('link', {name: ' Logout'});
 
     }
 
@@ -69,5 +71,11 @@ export class HomePage {
         await this.deleteAccountButton.click();
 
         return new AccountDeletedPage(this.page);
+    }
+
+    async logoutUser() {
+        await this.logOut.click();
+
+        return new SignInLoginPage(this.page);
     }
 }
