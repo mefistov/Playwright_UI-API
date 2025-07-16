@@ -1,4 +1,7 @@
 import {type Page, type Locator, expect} from '@playwright/test';
+import {SignInLoginPage} from "./SignInLoginPage";
+import {GenerateSignUpTestData} from "../../GenerateSignUpTestData";
+import {AccountDeletedPage} from "./AccountDeletedPage";
 
 export class HomePage {
     readonly page: Page;
@@ -14,6 +17,9 @@ export class HomePage {
     readonly signupLoginButton: Locator;
     readonly testCasesButton: Locator;
     readonly apiTestingsButton: Locator;
+    readonly loggedAs: Locator;
+    readonly loggedAsUserName: Locator;
+    readonly deleteAccountButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -21,12 +27,15 @@ export class HomePage {
         this.consentDialog = page.locator('div[role="dialog"][aria-label="This site asks for consent to use your data"]');
         this.consentDialogButton = page.getByRole('button', { name: 'Consent' });
 
-        this.homeButton =page.getByRole('link', {name: ' Home'});
-        this.productsButton =page.getByRole('link', {name: ' Products'});
-        this.cartButton =page.getByRole('link', {name: ' Cart'});
-        this.signupLoginButton =page.getByRole('link', {name: ' Signup / Login'});
-        this.testCasesButton =page.getByRole('link', { name: ' Test Cases' });
-        this.apiTestingsButton =page.getByRole('link', {name: ' API Testing'});
+        this.homeButton = page.getByRole('link', {name: ' Home'});
+        this.productsButton = page.getByRole('link', {name: ' Products'});
+        this.cartButton = page.getByRole('link', {name: ' Cart'});
+        this.signupLoginButton = page.getByRole('link', {name: ' Signup / Login'});
+        this.testCasesButton  =page.getByRole('link', { name: ' Test Cases' });
+        this.apiTestingsButton = page.getByRole('link', {name: ' API Testing'});
+        this.loggedAs = page.getByText('Logged in as');
+        this.loggedAsUserName = this.loggedAs.locator('b');
+        this.deleteAccountButton = page.getByRole('link', {name: ' Delete Account'})
 
     }
 
@@ -48,8 +57,17 @@ export class HomePage {
         expect.soft(this.signupLoginButton).toBeVisible();
         expect.soft(this.testCasesButton).toBeVisible();
         expect.soft(this.apiTestingsButton).toBeVisible();
-
     }
 
+    async clickSignInLoginButton() {
+        await this.signupLoginButton.click();
+        return new SignInLoginPage(this.page);
+    }
 
+    async assertUserLoggedInAndDeleteAccount(data: GenerateSignUpTestData): Promise<AccountDeletedPage> {
+        expect(await this.loggedAsUserName.textContent()).toEqual(data.firstName);
+        await this.deleteAccountButton.click();
+
+        return new AccountDeletedPage(this.page);
+    }
 }
