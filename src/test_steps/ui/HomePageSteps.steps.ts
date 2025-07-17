@@ -5,6 +5,8 @@ import {EnterAccountInformationPage} from "../../utils/recources/pages/EnterAcco
 import {GenerateSignUpTestData} from "../../utils/GenerateSignUpTestData";
 import {AccountCreatedPage} from "../../utils/recources/pages/AccountCreatedPage";
 import { AccountDeletedPage } from "../../utils/recources/pages/AccountDeletedPage";
+import {ContactUsPage} from "../../utils/recources/pages/ContactUsPage";
+import {TestCasesPage} from "../../utils/recources/pages/TestCasesPage";
 
 export class UISteps {
     readonly page: Page;
@@ -13,6 +15,8 @@ export class UISteps {
     private enterAccountInformationPage: EnterAccountInformationPage;
     private accountCreatedPage: AccountCreatedPage;
     private accountDeletedPage: AccountDeletedPage;
+    private contactUsPage: ContactUsPage;
+    private testCasesPage: TestCasesPage;
 
     constructor(page: Page) {
         this.page = page;
@@ -21,6 +25,8 @@ export class UISteps {
         this.enterAccountInformationPage = new EnterAccountInformationPage(this.page);
         this.accountCreatedPage = new AccountCreatedPage(this.page);
         this.accountDeletedPage = new AccountDeletedPage(this.page);
+        this.contactUsPage = new ContactUsPage(this.page);
+        this.testCasesPage = new TestCasesPage(this.page);
     }
 
     async navigateAndConsent(){
@@ -32,12 +38,21 @@ export class UISteps {
         await this.homePage.assertNavBar();
     }
 
-    async signUpUser(data: GenerateSignUpTestData){
-        await this.homePage.clickSignInLoginButton();
-        await this.signInLoginPage.signUp(data.firstName, data.email);
+    async userRegistration(data: GenerateSignUpTestData){
+        await this.singUpUser(data);
         await this.enterAccountInformationPage.assertNameEmailMathcing(data.firstName, data.email);
         await this.enterAccountInformationPage.fillAccountInformation(data);
         await this.accountCreatedPage.assertMessageAndClickContinue();
+    }
+
+    async signUpUserWithIncorectdata(data: GenerateSignUpTestData){
+        await this.singUpUser(data);
+        expect.soft(await this.signInLoginPage.emailExistsAllert.isVisible()).toBe(true);
+    }
+
+    async singUpUser(data: GenerateSignUpTestData){
+        await this.homePage.clickSignInLoginButton();
+        await this.signInLoginPage.signUp(data.firstName, data.email);
     }
 
     async assertSignedUpUserAndDelete(data: GenerateSignUpTestData){
@@ -47,7 +62,7 @@ export class UISteps {
 
     async navigateAndSignUpUser(data: GenerateSignUpTestData){
         await this.navigateAndConsent();
-        await this.signUpUser(data);
+        await this.userRegistration(data);
     }
 
     async logoutUser(){
@@ -61,8 +76,20 @@ export class UISteps {
         await this.accountDeletedPage.assertMessageAndClickContinue()
     }
 
-    async assertUserLogedInWithIncorrectData(data: GenerateSignUpTestData){
+    async assertUserLoggedInWithIncorrectData(data: GenerateSignUpTestData){
         await this.signInLoginPage.logIn(data);
         expect.soft(await this.signInLoginPage.invalidEmailOrPassword.isVisible()).toBe(true);
+    }
+
+    async navigateToContactFormAndFillIt(data: GenerateSignUpTestData, subject: string, message: string){
+        await this.homePage.navigateToContactUsPage();
+        await this.contactUsPage.fillContactUsFormAndReturnToHomePage(data, subject, message);
+        await this.contactUsPage.submitBrowserDialog();
+        await this.contactUsPage.submitFormAndReturnToHomePage();
+    }
+
+    async navigateAndAsserToTestCasesPage(){
+        await this.homePage.navigateToTestCasesPage();
+        await this.testCasesPage.assertOnTestCasesPage()
     }
 }

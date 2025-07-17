@@ -10,12 +10,13 @@ export class SignInLoginPage {
     readonly nameSighUp: Locator;
     readonly emailAddressSighUp: Locator;
     readonly sighup: Locator;
-    readonly invalidEmailOrPassword: Locator;
+    readonly emailExistsAllert: Locator;
 
     readonly loginHeading: Locator;
     readonly passwordLogin: Locator;
     readonly emailAddressLogin: Locator;
     readonly login: Locator;
+    readonly invalidEmailOrPassword: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -23,6 +24,7 @@ export class SignInLoginPage {
         this.nameSighUp = page.getByRole('textbox', { name: 'Name' });
         this.emailAddressSighUp = page.locator('form').filter({ hasText: 'Signup' }).getByPlaceholder('Email Address');
         this.sighup = page.getByRole('button', { name: 'Signup' });
+        this.emailExistsAllert = page.getByText('Email Address already exist!');
 
         this.loginHeading = page.getByRole('heading', { name: 'Login to your account' });
         this.emailAddressLogin = page.locator('form').filter({ hasText: 'Login' }).getByPlaceholder('Email Address');

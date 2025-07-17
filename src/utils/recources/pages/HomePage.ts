@@ -2,6 +2,8 @@ import {type Page, type Locator, expect} from '@playwright/test';
 import {SignInLoginPage} from "./SignInLoginPage";
 import {GenerateSignUpTestData} from "../../GenerateSignUpTestData";
 import {AccountDeletedPage} from "./AccountDeletedPage";
+import {ContactUsPage} from "./ContactUsPage";
+import {TestCasesPage} from "./TestCasesPage";
 
 export class HomePage {
     readonly page: Page;
@@ -21,6 +23,7 @@ export class HomePage {
     readonly loggedAsUserName: Locator;
     readonly deleteAccountButton: Locator;
     readonly logOut: Locator;
+    readonly contactUsButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -38,7 +41,7 @@ export class HomePage {
         this.loggedAsUserName = this.loggedAs.locator('b');
         this.deleteAccountButton = page.getByRole('link', {name: ' Delete Account'});
         this.logOut = page.getByRole('link', {name: ' Logout'});
-
+        this.contactUsButton = page.getByRole('link', {name: ' Contact us'});
     }
 
     async goto() {
@@ -77,5 +80,17 @@ export class HomePage {
         await this.logOut.click();
 
         return new SignInLoginPage(this.page);
+    }
+
+    async navigateToContactUsPage() {
+        await this.contactUsButton.click();
+
+        return new ContactUsPage(this.page);
+    }
+
+    async navigateToTestCasesPage() {
+        await this.testCasesButton.click();
+
+        return new TestCasesPage(this.page);
     }
 }
