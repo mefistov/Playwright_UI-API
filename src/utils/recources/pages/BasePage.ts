@@ -36,7 +36,7 @@ export class BasePage {
 
     async verifyNavigateContainExpectedPage(expectedUrl : string):Promise<void> {
         const expectedPageUrl = expectedUrl;
-        const actualPageUrl = await this.page.url();
+        const actualPageUrl = this.page.url();
         expect(actualPageUrl).toContain(expectedPageUrl);
     }
 
