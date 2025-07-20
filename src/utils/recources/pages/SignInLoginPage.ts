@@ -2,10 +2,9 @@ import {expect, Locator, Page} from "@playwright/test";
 import {EnterAccountInformationPage} from "./EnterAccountInformationPage";
 import {GenerateSignUpTestData} from "../../GenerateSignUpTestData";
 import {HomePage} from "./HomePage";
+import {BasePage} from "./BasePage";
 
-export class SignInLoginPage {
-    readonly page: Page;
-
+export class SignInLoginPage extends BasePage{
     readonly signUpHeading: Locator;
     readonly nameSighUp: Locator;
     readonly emailAddressSighUp: Locator;
@@ -19,7 +18,7 @@ export class SignInLoginPage {
     readonly invalidEmailOrPassword: Locator;
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
         this.signUpHeading = page.getByRole('heading', { name: 'New User Signup!' });
         this.nameSighUp = page.getByRole('textbox', { name: 'Name' });
         this.emailAddressSighUp = page.locator('form').filter({ hasText: 'Signup' }).getByPlaceholder('Email Address');

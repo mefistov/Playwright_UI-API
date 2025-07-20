@@ -1,14 +1,13 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {HomePage} from "./HomePage";
+import {BasePage} from "./BasePage";
 
-export class AccountCreatedPage {
-    readonly page: Page;
-
+export class AccountCreatedPage extends BasePage{
     readonly successMessage: Locator;
     readonly continueButton: Locator;
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
 
         this.successMessage = page.locator('h2[data-qa="account-created"]');
         this.continueButton = page.locator('a[data-qa="continue-button"]');

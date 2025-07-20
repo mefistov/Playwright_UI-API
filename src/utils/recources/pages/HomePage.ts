@@ -4,10 +4,10 @@ import {GenerateSignUpTestData} from "../../GenerateSignUpTestData";
 import {AccountDeletedPage} from "./AccountDeletedPage";
 import {ContactUsPage} from "./ContactUsPage";
 import {TestCasesPage} from "./TestCasesPage";
+import {ProductsPage} from "./ProductsPage";
+import {BasePage} from "./BasePage";
 
-export class HomePage {
-    readonly page: Page;
-
+export class HomePage extends BasePage{
     readonly baseUrl: string;
 
     readonly consentDialog: Locator;
@@ -26,7 +26,7 @@ export class HomePage {
     readonly contactUsButton: Locator;
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
         this.baseUrl = process.env.BASE_URL;
         this.consentDialog = page.locator('div[role="dialog"][aria-label="This site asks for consent to use your data"]');
         this.consentDialogButton = page.getByRole('button', { name: 'Consent' });
@@ -45,14 +45,20 @@ export class HomePage {
     }
 
     async goto() {
-        await this.page.goto(this.baseUrl);
+        await this.navigate(this.baseUrl)
     }
+
 
     async consent() {
         expect.soft(this.consentDialog).toBeVisible();
         expect.soft(this.consentDialogButton).toBeVisible();
         await this.consentDialogButton.click();
         expect.soft(this.consentDialog).not.toBeVisible();
+    }
+
+    async navigateAndConsent(){
+        await this.goto();
+        await this.consent();
     }
 
     async assertNavBar() {
@@ -92,5 +98,11 @@ export class HomePage {
         await this.testCasesButton.click();
 
         return new TestCasesPage(this.page);
+    }
+
+    async navigateToProductsPage() {
+        await this.productsButton.click();
+
+        return new ProductsPage(this.page);
     }
 }

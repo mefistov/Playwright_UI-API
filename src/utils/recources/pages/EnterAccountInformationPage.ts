@@ -1,9 +1,9 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {GenerateSignUpTestData} from "../../GenerateSignUpTestData";
 import {AccountCreatedPage} from "./AccountCreatedPage";
+import {BasePage} from "./BasePage";
 
-export class EnterAccountInformationPage {
-    readonly page: Page;
+export class EnterAccountInformationPage extends BasePage{
     readonly nameInput: Locator;
     readonly emailInput: Locator;
     readonly titleMrRadio: Locator;
@@ -28,7 +28,7 @@ export class EnterAccountInformationPage {
     readonly createAccountButton: Locator;
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
         this.nameInput = page.getByRole('textbox', { name: 'Name *', exact: true });
         this.emailInput = page.getByRole('textbox', { name: 'Email *', exact: true });
         this.titleMrRadio = page.locator('#id_gender1');

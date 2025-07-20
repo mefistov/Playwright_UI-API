@@ -1,22 +1,10 @@
 export class TestLogger {
-  static testStart(name: string, caseIds?: string[]) {
-    const ids = caseIds?.join(', ') ?? 'N/A';
-    const timeStamp = new Date().toISOString();
-    console.log(`\n🧪[${timeStamp}] [TEST START] ${name}`);
-    if (caseIds) {
-      console.log(`📝 [TestRail ID(s)] ${ids}`);
-    }
-  }
 
-  static testPass() {
-    console.log(`✅ [TEST PASS]`);
-  }
-
-  static testFail(error: unknown) {
+  static error(error: unknown) {
     console.error(`❌ [TEST FAIL]`, error);
   }
 
-  static step(msg: string) {
+  static info(msg: string) {
     const timeStamp = new Date().toISOString();
     console.log(`📤[${timeStamp}] [STEP] ${msg}`);
   }

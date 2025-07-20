@@ -1,13 +1,13 @@
 import {expect, Locator, Page} from "@playwright/test";
+import {BasePage} from "./BasePage";
 
-export class TestCasesPage {
-    readonly page: Page;
+export class TestCasesPage extends BasePage{
+
     readonly pageTitle: Locator;
     readonly testCasesContainer: Locator;
 
     constructor(page: Page) {
-        this.page = page;
-
+        super(page);
         this.pageTitle = page.locator('h2.title', { hasText: 'Test Cases' });
         this.testCasesContainer = page.locator('.panel-group');
     }

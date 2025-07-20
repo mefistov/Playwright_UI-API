@@ -1,14 +1,13 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {HomePage} from "./HomePage";
+import {BasePage} from "./BasePage";
 
-export class AccountDeletedPage {
-    readonly page: Page;
-
+export class AccountDeletedPage extends BasePage{
     readonly successMessage: Locator;
     readonly continueButton: Locator;
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
 
         this.successMessage = page.locator('h2[data-qa="account-deleted"]');
         this.continueButton = page.locator('a[data-qa="continue-button"]');
