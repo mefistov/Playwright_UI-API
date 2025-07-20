@@ -1,5 +1,4 @@
 import {Dialog, expect, Locator, Page} from "@playwright/test";
-import {HomePage} from "./HomePage";
 import {GenerateSignUpTestData} from "../../GenerateSignUpTestData";
 import {BasePage} from "./BasePage";
 
@@ -31,22 +30,26 @@ export class ContactUsPage extends BasePage{
             console.log(`Dialog message: ${dialog.message()}`);
             await dialog.accept().catch(() => {});
             await expect(this.submitButton).toBeEnabled();
-            await this.submitButton.click();
+            await this.clickElement(this.submitButton);
         })
     }
 
     async fillContactUsFormAndReturnToHomePage(data: GenerateSignUpTestData, subject: string, message: string, ){
-        await this.nameInput.fill(data.firstName);
-        await this.emailInput.fill(data.email);
-        await this.subjectInput.fill(subject);
-        await this.messageInput.fill(message);
+        await this.typeText(this.nameInput, data.firstName);
+        await this.typeText(this.emailInput, data.email);
+        await this.typeText(this.subjectInput, subject);
+        await this.typeText(this.messageInput, message);
     }
 
     async submitFormAndReturnToHomePage() {
         await this.submitBrowserDialog();
         await expect(this.successMessage).toBeVisible();
-        await this.homeButton.click();
+        await this.clickElement(this.homeButton);
+    }
 
-        return new HomePage(this.page);
+    async fillAndSubmitForm(data: GenerateSignUpTestData, subject: string, message: string, ){
+        await this.fillContactUsFormAndReturnToHomePage(data, subject, message);
+        await this.submitBrowserDialog();
+        await this.submitFormAndReturnToHomePage();
     }
 }

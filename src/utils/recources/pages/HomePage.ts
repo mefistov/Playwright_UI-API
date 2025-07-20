@@ -44,11 +44,6 @@ export class HomePage extends BasePage{
         this.contactUsButton = page.getByRole('link', {name: ' Contact us'});
     }
 
-    async goto() {
-        await this.navigate(this.baseUrl)
-    }
-
-
     async consent() {
         expect.soft(this.consentDialog).toBeVisible();
         expect.soft(this.consentDialogButton).toBeVisible();
@@ -57,7 +52,7 @@ export class HomePage extends BasePage{
     }
 
     async navigateAndConsent(){
-        await this.goto();
+        await this.navigate(this.baseUrl);
         await this.consent();
     }
 
@@ -70,39 +65,33 @@ export class HomePage extends BasePage{
         expect.soft(this.apiTestingsButton).toBeVisible();
     }
 
-    async clickSignInLoginButton() {
-        await this.signupLoginButton.click();
-        return new SignInLoginPage(this.page);
-    }
-
-    async assertUserLoggedInAndDeleteAccount(data: GenerateSignUpTestData): Promise<AccountDeletedPage> {
+    async assertUserLoggedInAndDeleteAccount(data: GenerateSignUpTestData) {
         expect(await this.loggedAsUserName.textContent()).toEqual(data.firstName);
-        await this.deleteAccountButton.click();
+        await this.clickElement(this.deleteAccountButton);
 
-        return new AccountDeletedPage(this.page);
     }
 
     async logoutUser() {
-        await this.logOut.click();
-
-        return new SignInLoginPage(this.page);
+        await this.clickElement(this.logOut);
     }
 
     async navigateToContactUsPage() {
-        await this.contactUsButton.click();
-
-        return new ContactUsPage(this.page);
+        await this.navigateAndConsent();
+        await this.clickElement(this.contactUsButton);
     }
 
     async navigateToTestCasesPage() {
-        await this.testCasesButton.click();
-
-        return new TestCasesPage(this.page);
+        await this.navigateAndConsent();
+        await this.clickElement(this.testCasesButton);
     }
 
     async navigateToProductsPage() {
-        await this.productsButton.click();
+        await this.navigateAndConsent();
+        await this.clickElement(this.productsButton);
+    }
 
-        return new ProductsPage(this.page);
+    async navigateToLoginPage() {
+        await this.navigateAndConsent();
+        await this.clickElement(this.signupLoginButton);
     }
 }

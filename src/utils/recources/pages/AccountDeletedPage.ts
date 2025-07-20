@@ -1,5 +1,4 @@
 import {expect, Locator, Page} from "@playwright/test";
-import {HomePage} from "./HomePage";
 import {BasePage} from "./BasePage";
 
 export class AccountDeletedPage extends BasePage{
@@ -13,11 +12,9 @@ export class AccountDeletedPage extends BasePage{
         this.continueButton = page.locator('a[data-qa="continue-button"]');
     }
 
-    async assertMessageAndClickContinue(): Promise<HomePage> {
+    async assertMessageAndClickContinue(){
         await this.assertSuccessMessageIsVisible();
-        await this.continueButton.click();
-
-        return new HomePage(this.page);
+        await this.clickElement(this.continueButton);
     }
 
     async assertSuccessMessageIsVisible(): Promise<void> {

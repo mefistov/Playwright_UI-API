@@ -16,13 +16,11 @@ test.describe('Api & UI test steps', async () => {
     });
 
     test('Register user varify account create and delete it', async({homePage, signInLoginPage, enterAccountInformationPage, accountCreatedPage, accountDeletedPage}) => {
-        await homePage.navigateAndConsent();
-        await homePage.clickSignInLoginButton();
+        await homePage.navigateToLoginPage();
 
         await signInLoginPage.signUp(testData.firstName, testData.email);
 
-        await enterAccountInformationPage.assertNameEmailMathcing(testData.firstName, testData.email);
-        await enterAccountInformationPage.fillAccountInformation(testData);
+        await enterAccountInformationPage.fillAccountInformationAndReturn(testData);
 
         await accountCreatedPage.assertMessageAndClickContinue();
 
@@ -32,13 +30,11 @@ test.describe('Api & UI test steps', async () => {
     });
 
     test('Login User with correct email and password', async({homePage, signInLoginPage, enterAccountInformationPage, accountCreatedPage, accountDeletedPage}) => {
-        await homePage.navigateAndConsent();
-        await homePage.clickSignInLoginButton();
+        await homePage.navigateToLoginPage();
 
         await signInLoginPage.signUp(testData.firstName, testData.email);
 
-        await enterAccountInformationPage.assertNameEmailMathcing(testData.firstName, testData.email);
-        await enterAccountInformationPage.fillAccountInformation(testData);
+        await enterAccountInformationPage.fillAccountInformationAndReturn(testData);
 
         await accountCreatedPage.assertMessageAndClickContinue();
 
@@ -52,13 +48,11 @@ test.describe('Api & UI test steps', async () => {
     });
 
     test('Login User with incorrect email', async({homePage, signInLoginPage, enterAccountInformationPage, accountCreatedPage}) => {
-        await homePage.navigateAndConsent();
-        await homePage.clickSignInLoginButton();
+        await homePage.navigateToLoginPage();
 
         await signInLoginPage.signUp(testData.firstName, testData.email);
 
-        await enterAccountInformationPage.assertNameEmailMathcing(testData.firstName, testData.email);
-        await enterAccountInformationPage.fillAccountInformation(testData);
+        await enterAccountInformationPage.fillAccountInformationAndReturn(testData);
 
         await accountCreatedPage.assertMessageAndClickContinue();
 
@@ -73,13 +67,11 @@ test.describe('Api & UI test steps', async () => {
     });
 
     test('Login User with incorrect password', async({homePage, signInLoginPage,  enterAccountInformationPage,accountCreatedPage}) => {
-        await homePage.navigateAndConsent();
-        await homePage.clickSignInLoginButton();
+        await homePage.navigateToLoginPage();
 
         await signInLoginPage.signUp(testData.firstName, testData.email);
 
-        await enterAccountInformationPage.assertNameEmailMathcing(testData.firstName, testData.email);
-        await enterAccountInformationPage.fillAccountInformation(testData);
+        await enterAccountInformationPage.fillAccountInformationAndReturn(testData);
 
         await accountCreatedPage.assertMessageAndClickContinue();
 
@@ -95,24 +87,20 @@ test.describe('Api & UI test steps', async () => {
     test('SignUp user with existing email', async({homePage, signInLoginPage}) => {
         testData.email = process.env.EXISTING_EMAIL;
 
-        await homePage.navigateAndConsent();
-        await homePage.clickSignInLoginButton();
+        await homePage.navigateToLoginPage();
 
         await signInLoginPage.signUp(testData.firstName, testData.email);
 
-        expect.soft(await signInLoginPage.emailExistsAllert.isVisible()).toBe(true);
+        expect.soft(await signInLoginPage.emailExistsAlert.isVisible()).toBe(true);
     });
 
     test('Contact Us Form test', async({homePage, contactUsPage}) => {
         const subject: string = 'Complain'
         const message: string = 'Complain message.';
 
-        await homePage.navigateAndConsent();
-        await homePage.navigateToContactUsPage();
+        await homePage.navigateToLoginPage();
 
-        await contactUsPage.fillContactUsFormAndReturnToHomePage(testData, subject, message);
-        await contactUsPage.submitBrowserDialog();
-        await contactUsPage.submitFormAndReturnToHomePage();
+        await contactUsPage.fillAndSubmitForm(testData, subject, message);
     });
 
     test('Navigate to Test Cases page', async({homePage, testCasesPage}) => {

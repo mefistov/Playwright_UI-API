@@ -1,6 +1,5 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {GenerateSignUpTestData} from "../../GenerateSignUpTestData";
-import {AccountCreatedPage} from "./AccountCreatedPage";
 import {BasePage} from "./BasePage";
 
 export class EnterAccountInformationPage extends BasePage{
@@ -53,12 +52,12 @@ export class EnterAccountInformationPage extends BasePage{
         this.createAccountButton = page.locator('[data-qa="create-account"]');
     }
 
-    async assertNameEmailMathcing(name: string, email: string){
+    async assertNameEmailMatching(name: string, email: string){
         expect.soft(await this.nameInput.inputValue()).toBe(name);
         expect.soft(await this.emailInput.inputValue()).toBe(email);
     }
 
-    async fillAccountInformation(data: GenerateSignUpTestData): Promise<AccountCreatedPage>{
+    async fillAccountInformation(data: GenerateSignUpTestData){
         await this.passwordInput.fill(data.password);
         await this.daysDropdown.selectOption(data.dateOfBirth.day.toString());
         await this.monthsDropdown.selectOption(data.dateOfBirth.month);
@@ -76,7 +75,10 @@ export class EnterAccountInformationPage extends BasePage{
         await this.zipcodeInput.fill(data.zipcode);
         await this.mobileNumberInput.fill(data.mobileNumber);
         await this.createAccountButton.click();
+    }
 
-        return new AccountCreatedPage(this.page);
+    async fillAccountInformationAndReturn(data: GenerateSignUpTestData){
+        await this.assertNameEmailMatching(data.firstName, data.email);
+        await this.fillAccountInformation(data);
     }
 }
