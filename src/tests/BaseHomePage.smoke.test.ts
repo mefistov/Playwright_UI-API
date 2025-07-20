@@ -104,14 +104,12 @@ test.describe('Api & UI test steps', async () => {
     });
 
     test('Navigate to Test Cases page', async({homePage, testCasesPage}) => {
-        await homePage.navigateAndConsent();
         await homePage.navigateToTestCasesPage();
 
         await testCasesPage.assertOnTestCasesPage();
     });
 
     test('Navigate to Products page loaded and have product cards ', async({homePage, productsPage}) => {
-        await homePage.navigateAndConsent();
         await homePage.navigateToProductsPage();
 
         await productsPage.assertOnProductsPage();
