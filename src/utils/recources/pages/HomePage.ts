@@ -1,10 +1,5 @@
 import {type Page, type Locator, expect} from '@playwright/test';
-import {SignInLoginPage} from "./SignInLoginPage";
 import {GenerateSignUpTestData} from "../../GenerateSignUpTestData";
-import {AccountDeletedPage} from "./AccountDeletedPage";
-import {ContactUsPage} from "./ContactUsPage";
-import {TestCasesPage} from "./TestCasesPage";
-import {ProductsPage} from "./ProductsPage";
 import {BasePage} from "./BasePage";
 
 export class HomePage extends BasePage{
@@ -41,7 +36,7 @@ export class HomePage extends BasePage{
         this.loggedAsUserName = this.loggedAs.locator('b');
         this.deleteAccountButton = page.getByRole('link', {name: ' Delete Account'});
         this.logOut = page.getByRole('link', {name: ' Logout'});
-        this.contactUsButton = page.getByRole('link', {name: ' Contact us'});
+        this.contactUsButton = page.getByRole('link', {name: ' Contact us'});
     }
 
     async consent() {
