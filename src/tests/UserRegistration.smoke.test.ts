@@ -2,7 +2,7 @@ import { test } from '../utils/fixtures/BaseFixtures'
 import {GenerateSignUpTestData} from "../utils/GenerateSignUpTestData";
 import {expect} from "@playwright/test";
 
-test.describe('Api & UI test steps', async () => {
+test.describe('UI user registration tests', async () => {
 
     let testData: GenerateSignUpTestData;
 
