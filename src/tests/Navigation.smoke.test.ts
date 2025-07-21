@@ -45,4 +45,4 @@ test.describe('Navigation to application pages', async () => {
 
         expect.soft(await signInLoginPage.emailExistsAlert.isVisible()).toBe(true);
     });
-})
+});

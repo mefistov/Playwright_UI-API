@@ -9,6 +9,7 @@ export class ProductsPage extends BasePage{
     readonly addedToCartModal: Locator;
     readonly viewCartLink: Locator;
     readonly continueShoppingButton: Locator;
+    readonly firstProductViewButton: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -21,11 +22,16 @@ export class ProductsPage extends BasePage{
         this.addedToCartModal = this.page.locator('#cartModal');
         this.viewCartLink = this.addedToCartModal.locator('a[href="/view_cart"]');
         this.continueShoppingButton = this.addedToCartModal.locator('button.close-modal');
+        this.firstProductViewButton = this.page.locator('.product-image-wrapper').first().getByRole('link', { name: 'View Product' });
     }
 
     async assertOnProductsPage(){
         await expect(this.page).toHaveURL(/.*products/);
         await expect(this.pageTitle).toBeVisible();
+    }
+
+    async selectFirstElementFromAllProductsContainer(){
+        await this.clickElement(this.firstProductViewButton);
     }
 
 
