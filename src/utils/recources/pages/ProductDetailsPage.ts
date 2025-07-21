@@ -1,8 +1,10 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {BasePage} from "./BasePage";
 import {ProductDetails} from "../interfaces/ProductDetails";
+import {ProductAddedDialog} from "./page_elements/ProductAddedDialog";
 
 export class ProductDetailsPage extends BasePage {
+    readonly productAddedPopUp: ProductAddedDialog;
     readonly productDetailsContainer: Locator;
     readonly productNameTitle: Locator;
     readonly productCategory: Locator
@@ -15,6 +17,7 @@ export class ProductDetailsPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
+        this.productAddedPopUp = new ProductAddedDialog(page);
         this.productDetailsContainer = page.locator('.product-details');
         this.productNameTitle = this.productDetailsContainer.getByRole('heading', { level: 2 });
         this.productCategory = this.productDetailsContainer.locator('p', { hasText: 'Category:' });
@@ -39,5 +42,18 @@ export class ProductDetailsPage extends BasePage {
         await expect.soft(this.productAvailability).toContainText(data.availability);
         expect.soft(await this.isElementVisible(this.productQuantityInput)).toBe(true);
         expect.soft(await this.isElementVisible(this.addToCartButton)).toBe(true);
+    }
+
+    async assertPageStateAndDisplayedElements(data: ProductDetails){
+        await this.assertOnProductDetailsPage();
+        await this.assertProductDetailsElementsVisible(data);
+    }
+
+    async setProductQuantityAndMoveToCart(data: ProductDetails){
+        if(data.quantity > 1){
+            await this.typeText(this.productQuantityInput, data.quantity.toString());
+        }
+        await this.clickElement(this.addToCartButton);
+        await this.productAddedPopUp.moveToCart();
     }
 }

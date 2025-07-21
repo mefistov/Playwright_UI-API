@@ -8,6 +8,7 @@ import {ProductDetailsPage} from "../recources/pages/ProductDetailsPage";
 import {ProductsPage} from "../recources/pages/ProductsPage";
 import {AccountDeletedPage} from "../recources/pages/AccountDeletedPage";
 import {TestCasesPage} from "../recources/pages/TestCasesPage";
+import {ShoppingCartPage} from "../recources/pages/ShoppingCartPage";
 
 
 type Fixture = {
@@ -16,6 +17,7 @@ type Fixture = {
     contactUsPage: ContactUsPage;
     productDetailsPage: ProductDetailsPage;
     productsPage: ProductsPage;
+    shoppingCartPage: ShoppingCartPage;
     accountCreatedPage: AccountCreatedPage;
     accountDeletedPage: AccountDeletedPage;
     enterAccountInformationPage: EnterAccountInformationPage;
@@ -37,6 +39,7 @@ const test = baseTest.extend<Fixture>({
     contactUsPage: createFixture(ContactUsPage),
     productDetailsPage: createFixture(ProductDetailsPage),
     productsPage: createFixture(ProductsPage),
+    shoppingCartPage: createFixture(ShoppingCartPage),
     accountCreatedPage: createFixture(AccountCreatedPage),
     accountDeletedPage: createFixture(AccountDeletedPage),
     enterAccountInformationPage: createFixture(EnterAccountInformationPage),

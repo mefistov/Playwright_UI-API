@@ -3,7 +3,6 @@ import {BasePage} from "../BasePage";
 
 export class BrandsSidebar extends BasePage{
 
-
     constructor(page: Page) {
         super(page);
     }
